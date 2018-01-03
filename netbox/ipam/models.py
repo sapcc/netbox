@@ -320,7 +320,7 @@ class Prefix(CreatedUpdatedModel, CustomFieldModel):
         "container", calculate utilization based on child prefixes. For all others, count child IP addresses.
         """
         if self.status == PREFIX_STATUS_CONTAINER:
-            queryset = Prefix.objects.filter(prefix__net_contained=str(self.prefix), vrf=self.vrf)
+            queryset = Prefix.objects.filter(prefix__net_contained=str(self.prefix))
             child_prefixes = netaddr.IPSet([p.prefix for p in queryset])
             return int(float(child_prefixes.size) / self.prefix.size * 100)
         else:

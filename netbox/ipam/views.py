@@ -477,8 +477,12 @@ class PrefixView(View):
         duplicate_prefix_table.exclude = ('vrf',)
 
         # Child prefixes table
-        child_prefixes = Prefix.objects.filter(
-            vrf=prefix.vrf, prefix__net_contained=str(prefix.prefix)
+        if prefix.vrf:
+            child_prefixes = Prefix.objects.filter(vrf=prefix.vrf)
+        else:
+            child_prefixes = Prefix.objects.all()
+        child_prefixes = child_prefixes.filter(
+            prefix__net_contained=str(prefix.prefix)
         ).select_related(
             'site', 'vlan', 'role',
         ).annotate_depth(limit=0)
