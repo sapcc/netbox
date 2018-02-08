@@ -219,7 +219,7 @@ class Prefix(CreatedUpdatedModel, CustomFieldModel):
     ]
 
     class Meta:
-        ordering = ['vrf', 'family', 'prefix']
+        ordering = ['family', 'prefix']
         verbose_name_plural = 'prefixes'
 
     def __str__(self):
